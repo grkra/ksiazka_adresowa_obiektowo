@@ -1,3 +1,6 @@
+#ifndef UZYTKOWNIK_H //dyrektywa zapobiega bledowi kilkukrotnego wywolania pliku naglowkowego
+#define UZYTKOWNIK_H //dyrektywa zapobiega bledowi kilkukrotnego wywolania pliku naglowkowego
+
 #include <iostream>
 
 using namespace std;
@@ -17,3 +20,5 @@ public:
     string pobierzLogin();
     string pobierzHaslo();
 };
+
+#endif //dyrektywa zapobiega bledowi kilkukrotnego wywolania pliku naglowkowego
