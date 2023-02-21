@@ -30,6 +30,7 @@ void UzytkownikMenadzer::rejestracjaUzytkownika() {
 
 void UzytkownikMenadzer::wypiszWszystkichUzytkownikow()
 {
+    cout << "SIZE: " << uzytkownicy.size() << endl << endl;
     for (int i = 0; i < uzytkownicy.size(); i++)
     {
         cout << uzytkownicy[i].pobierzId() << endl;
