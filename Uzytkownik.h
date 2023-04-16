@@ -14,7 +14,7 @@ class Uzytkownik
 public:
     void ustawId (int noweId);
     void ustawLogin (string nowyLogin);
-    void ustawaHaslo (string noweHasol);
+    void ustawHaslo (string noweHaslo);
 
     int pobierzId();
     string pobierzLogin();

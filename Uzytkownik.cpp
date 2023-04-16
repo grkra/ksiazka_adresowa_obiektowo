@@ -8,7 +8,7 @@ void Uzytkownik::ustawId (int noweId) {
 void Uzytkownik::ustawLogin (string nowyLogin) {
     login = nowyLogin;
 }
-void Uzytkownik::ustawaHaslo (string noweHasol) {
+void Uzytkownik::ustawHaslo (string noweHasol) {
     haslo = noweHasol;
 }
 
