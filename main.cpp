@@ -5,7 +5,7 @@
 using namespace std;
 
 int main() {
-    KsiazkaAdresowa ksiazkaAdresowa ("Uzytkownicy.txt", "Adresaci.txt");
+    KsiazkaAdresowa ksiazkaAdresowa("Uzytkownicy.txt", "Adresaci.txt");
 
     char wyborOpcji;
 
@@ -28,30 +28,27 @@ int main() {
                 system("pause");
                 break;
             }
-        }
-        else
-        {
+        } else {
             wyborOpcji = ksiazkaAdresowa.wybierzOpcjeZMenuUzytkownika();
 
-            switch (wyborOpcji)
-            {
+            switch (wyborOpcji) {
             case '1':
                 ksiazkaAdresowa.dodajAdresata();
                 break;
             case '2':
-                cout << "OPCJA 2" << endl;
+                ksiazkaAdresowa.wyszukajAdresatowPoImieniu();
                 break;
             case '3':
-                cout << "OPCJA 3" << endl;
+                ksiazkaAdresowa.wyszukajAdresatowPoNazwisku();
                 break;
             case '4':
                 ksiazkaAdresowa.wypiszWszystkichAdresatow();
                 break;
             case '5':
-                cout << "OPCJA 5" << endl;
+                ksiazkaAdresowa.usunAdresata();
                 break;
             case '6':
-                cout << "OPCJA 6" << endl;
+                ksiazkaAdresowa.edytujAdresata();
                 break;
             case '7':
                 ksiazkaAdresowa.zmianaHaslaZalogowanegoUzytkownika();
