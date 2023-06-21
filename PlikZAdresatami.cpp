@@ -1,17 +1,9 @@
 #include "PlikZAdresatami.h"
 
-bool PlikZAdresatami::czyPlikJestPusty(fstream &plikTekstowy) {
-    plikTekstowy.seekg(0, ios::end);
-    if (plikTekstowy.tellg() == 0)
-        return true;
-    else
-        return false;
-}
-
 bool PlikZAdresatami::dopiszAdresataDoPliku(Adresat adresat) {
     string liniaZDanymiAdresata = "";
     fstream plikTekstowy;
-    plikTekstowy.open(NAZWA_PLIKU_Z_ADRESATAMI.c_str(), ios::out | ios::app);
+    plikTekstowy.open(NAZWA_PLIKU.c_str(), ios::out | ios::app);
 
     if (plikTekstowy.good() == true) {
         liniaZDanymiAdresata = zamienDaneAdresataNaLinieZDanymiOddzielonymiPionowymiKreskami(adresat);
@@ -26,6 +18,72 @@ bool PlikZAdresatami::dopiszAdresataDoPliku(Adresat adresat) {
         return true;
     }
     return false;
+}
+
+void PlikZAdresatami::usunAdresataZPliku (int idAdresata) {
+    string daneJednegoAdresataOddzielonePionowymiKreskami = "";
+    string daneOstaniegoSkopiwanegoAdresataWPlikuOddzielonePionowymiKreskami = "";
+    fstream plikTekstowy, tymczasowyPlikTekstowy;
+    plikTekstowy.open(NAZWA_PLIKU.c_str(), ios::in);
+    tymczasowyPlikTekstowy.open(NAZWA_TYMCZASOWEGO_PLIKU.c_str(), ios::out | ios::app);
+
+    if (plikTekstowy.good() == true && tymczasowyPlikTekstowy.good() == true && idAdresata != 0) {
+        while(getline(plikTekstowy, daneJednegoAdresataOddzielonePionowymiKreskami)) {
+            if(idAdresata == pobierzIdAdresataZDanychOddzielonychPionowymiKreskami(daneJednegoAdresataOddzielonePionowymiKreskami)) {
+                continue;
+            } else if (czyPlikJestPusty(tymczasowyPlikTekstowy) == true) {
+                tymczasowyPlikTekstowy << daneJednegoAdresataOddzielonePionowymiKreskami;
+                daneOstaniegoSkopiwanegoAdresataWPlikuOddzielonePionowymiKreskami = daneJednegoAdresataOddzielonePionowymiKreskami;
+            } else {
+                tymczasowyPlikTekstowy << endl << daneJednegoAdresataOddzielonePionowymiKreskami;
+                daneOstaniegoSkopiwanegoAdresataWPlikuOddzielonePionowymiKreskami = daneJednegoAdresataOddzielonePionowymiKreskami;
+            }
+        }
+        plikTekstowy.close();
+        tymczasowyPlikTekstowy.close();
+        MetodyPomocnicze::usunPlik(NAZWA_PLIKU);
+        MetodyPomocnicze::zmienNazwePliku(NAZWA_TYMCZASOWEGO_PLIKU, NAZWA_PLIKU);
+    }
+
+    zaktualizujIdOstatniegoAdresataPoUsunieciuWybranegoAdresata (idAdresata, daneOstaniegoSkopiwanegoAdresataWPlikuOddzielonePionowymiKreskami);
+}
+
+void PlikZAdresatami::zaktualizujDaneWybranegoAdresata(Adresat adresat){
+    string liniaZDanymiEdytowanegoAdresataOddzielonymiPionowymiKreskami = zamienDaneAdresataNaLinieZDanymiOddzielonymiPionowymiKreskami(adresat);
+    int idEdytowanegoAdresata = adresat.pobierzId();
+
+    string daneJednegoAdresataOddzielonePionowymiKreskami = "";
+    fstream plikTekstowy, tymczasowyPlikTekstowy;
+    plikTekstowy.open(NAZWA_PLIKU.c_str(), ios::in);
+    tymczasowyPlikTekstowy.open(NAZWA_TYMCZASOWEGO_PLIKU.c_str(), ios::out | ios::app);
+
+    if (plikTekstowy.good() == true && tymczasowyPlikTekstowy.good() == true && idEdytowanegoAdresata != 0){
+        while(getline(plikTekstowy, daneJednegoAdresataOddzielonePionowymiKreskami)) {
+            if(czyPlikJestPusty(tymczasowyPlikTekstowy) == true){
+                if(idEdytowanegoAdresata == pobierzIdAdresataZDanychOddzielonychPionowymiKreskami(daneJednegoAdresataOddzielonePionowymiKreskami)){
+                    tymczasowyPlikTekstowy << liniaZDanymiEdytowanegoAdresataOddzielonymiPionowymiKreskami;
+                }
+                else {tymczasowyPlikTekstowy << daneJednegoAdresataOddzielonePionowymiKreskami;}
+            }
+            else{
+                if(idEdytowanegoAdresata == pobierzIdAdresataZDanychOddzielonychPionowymiKreskami(daneJednegoAdresataOddzielonePionowymiKreskami)){
+                    tymczasowyPlikTekstowy << endl << liniaZDanymiEdytowanegoAdresataOddzielonymiPionowymiKreskami;
+                }
+                else {tymczasowyPlikTekstowy << endl << daneJednegoAdresataOddzielonePionowymiKreskami;}
+            }
+        }
+        plikTekstowy.close();
+        tymczasowyPlikTekstowy.close();
+        MetodyPomocnicze::usunPlik(NAZWA_PLIKU);
+        MetodyPomocnicze::zmienNazwePliku(NAZWA_TYMCZASOWEGO_PLIKU, NAZWA_PLIKU);
+    }
+    cout << endl << "Dane zostaly zaktualizowane." << endl << endl;
+}
+
+void PlikZAdresatami::zaktualizujIdOstatniegoAdresataPoUsunieciuWybranegoAdresata (int idUsunietegoAdresata, string daneOstaniegoSkopiwanegoAdresataWPlikuOddzielonePionowymiKreskami) {
+    if (idUsunietegoAdresata == idOstatniegoAdresata) {
+        idOstatniegoAdresata = pobierzIdAdresataZDanychOddzielonychPionowymiKreskami(daneOstaniegoSkopiwanegoAdresataWPlikuOddzielonePionowymiKreskami);
+    }
 }
 
 string PlikZAdresatami::zamienDaneAdresataNaLinieZDanymiOddzielonymiPionowymiKreskami(Adresat adresat) {
@@ -48,7 +106,7 @@ vector <Adresat> PlikZAdresatami::wczytajAdresatowZalogowanegoUzytkownikaZPliku(
     string daneJednegoAdresataOddzielonePionowymiKreskami = "";
     string daneOstaniegoAdresataWPliku = "";
     fstream plikTekstowy;
-    plikTekstowy.open(NAZWA_PLIKU_Z_ADRESATAMI.c_str(), ios::in);
+    plikTekstowy.open(NAZWA_PLIKU.c_str(), ios::in);
 
     if (plikTekstowy.good() == true) {
         while (getline(plikTekstowy, daneJednegoAdresataOddzielonePionowymiKreskami)) {

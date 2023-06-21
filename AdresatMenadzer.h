@@ -17,14 +17,22 @@ class AdresatMenadzer {
 
     Adresat podajDaneNowegoAdresata();
     void wyswietlDaneAdresata(Adresat adresat);
+    void wyswietlIloscWyszukanychAdresatow(int iloscAdresatow);
+    int podajIdWybranegoAdresata();
+    char wybierzOpcjeZMenuEdycja();
 
 public:
-    AdresatMenadzer(string nazwaPlikuZAdresatami, int idZalogowaneUzytkownika): ID_ZALOGOWANEGO_UZYTKOWNIKA(idZalogowaneUzytkownika), plikZAdresatami(nazwaPlikuZAdresatami) {
+    AdresatMenadzer(string nazwaPlikuZAdresatami, int idZalogowaneUzytkownika)
+        : ID_ZALOGOWANEGO_UZYTKOWNIKA(idZalogowaneUzytkownika), plikZAdresatami(nazwaPlikuZAdresatami) {
         adresaci = plikZAdresatami.wczytajAdresatowZalogowanegoUzytkownikaZPliku(ID_ZALOGOWANEGO_UZYTKOWNIKA);
     }
 
     void dodajAdresata();
     void wypiszWszystkichAdresatow();
+    void wyszukajAdresatowPoImieniu();
+    void wyszukajAdresatowPoNazwisku();
+    void usunAdresata();
+    void edytujAdresata();
 };
 
 #endif

@@ -8,21 +8,21 @@
 
 #include "Adresat.h"
 #include "MetodyPomocnicze.h"
+#include "PlikTekstowy.h"
 
 using namespace std;
 
-class PlikZAdresatami {
-    const string NAZWA_PLIKU_Z_ADRESATAMI;
+class PlikZAdresatami: public PlikTekstowy {
+    const string NAZWA_TYMCZASOWEGO_PLIKU;
     int idOstatniegoAdresata;
-
-    bool czyPlikJestPusty(fstream &plikTekstowy);
     string zamienDaneAdresataNaLinieZDanymiOddzielonymiPionowymiKreskami(Adresat adresat);
     int pobierzIdUzytkownikaZDanychOddzielonychPionowymiKreskami(string daneJednegoAdresataOddzielonePionowymiKreskami);
     Adresat pobierzDaneAdresata(string daneAdresataOddzielonePionowymiKreskami);
     string pobierzLiczbe(string tekst, int pozycjaZnaku);
-
+    void zaktualizujIdOstatniegoAdresataPoUsunieciuWybranegoAdresata(int idUsunietegoAdresata, string daneOstaniegoSkopiwanegoAdresataWPlikuOddzielonePionowymiKreskami);
 public:
-    PlikZAdresatami(string nazwaPlikuZAdresatami) : NAZWA_PLIKU_Z_ADRESATAMI(nazwaPlikuZAdresatami) {
+    PlikZAdresatami(string nazwaPlikuZAdresatami)
+        :PlikTekstowy(nazwaPlikuZAdresatami), NAZWA_TYMCZASOWEGO_PLIKU("Adresaci_tymczasowy.txt") {
         idOstatniegoAdresata = 0;
     };
 
@@ -30,6 +30,9 @@ public:
     bool dopiszAdresataDoPliku(Adresat adresat);
     int pobierzIdAdresataZDanychOddzielonychPionowymiKreskami(string daneJednegoAdresataOddzielonePionowymiKreskami);
     int pobierzIdOstatniegoAdresata();
+    void usunAdresataZPliku(int idAdresata);
+    void zaktualizujDaneWybranegoAdresata(Adresat adresat);
+
 };
 
 #endif

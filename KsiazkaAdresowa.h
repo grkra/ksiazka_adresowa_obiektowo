@@ -18,7 +18,7 @@ public:
         adresatMenadzer = NULL;
     };
 
-    ~KsiazkaAdresowa () {
+    ~KsiazkaAdresowa() {
         delete adresatMenadzer;
         adresatMenadzer = NULL;
     }
@@ -33,6 +33,10 @@ public:
     bool czyUzytkownikJestZalogowany();
     char wybierzOpcjeZMenuGlownego();
     char wybierzOpcjeZMenuUzytkownika();
+    void wyszukajAdresatowPoImieniu();
+    void wyszukajAdresatowPoNazwisku();
+    void usunAdresata();
+    void edytujAdresata();
 };
 
 #endif
