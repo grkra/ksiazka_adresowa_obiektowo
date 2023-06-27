@@ -7,9 +7,12 @@
 using namespace std;
 
 class PlikTekstowy {
-protected:
+private:
     const string NAZWA_PLIKU;
+
+protected:
     bool czyPlikJestPusty(fstream &plikTekstowy);
+    string pobierzNazwePliku();
 
 public:
     PlikTekstowy (string nazwaPliku)

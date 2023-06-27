@@ -11,6 +11,7 @@ string MetodyPomocnicze::konwerjsaIntNaString(int liczba)
 string MetodyPomocnicze::wczytajLinie()
 {
     string wejscie = "";
+    cin.sync();
     getline(cin, wejscie);
     return wejscie;
 }
@@ -41,8 +42,8 @@ char MetodyPomocnicze::wczytajZnak()
 
     while (true)
     {
+        cin.sync();
         getline(cin, wejscie);
-
         if (wejscie.length() == 1)
         {
             znak = wejscie[0];
